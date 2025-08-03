@@ -1,0 +1,67 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 600px;
+  margin: 1rem auto;
+  padding: 0 1rem;
+  background: #f0f8ff;
+  color: #222;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#chatSection {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 1rem;
+  background: #fff;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+#chatLog {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+#chatLog p {
+  margin: 0.3rem 0;
+}
+
+#chatLog .user {
+  text-align: right;
+  color: #0055cc;
+}
+
+#chatLog .bot {
+  text-align: left;
+  color: #228822;
+}
+
+#chatForm {
+  display: flex;
+  gap: 0.5rem;
+}
+
+#chatInput {
+  flex-grow: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
