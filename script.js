@@ -1,21 +1,31 @@
 const API_URL = "https://eureka-quizwith-gemini-api.vercel.app/api/answer";
 
-const hintText = "男は以前、漂流して人肉を食べさせられた経験がある。";
-const answerText = "男は漂流で人肉を食べさせられ、その味をスープで思い出し泣いた。";
+let quizzes = [];
 
+const quizSelect = document.getElementById("quizSelect");
+const hintBtn = document.getElementById("hintBtn");
+const answerBtn = document.getElementById("answerBtn");
 const chatLog = document.getElementById("chatLog");
 const chatForm = document.getElementById("chatForm");
 const chatInput = document.getElementById("chatInput");
 
-document.getElementById("hintBtn").addEventListener("click", () => {
-  alert(`ヒント:\n${hintText}`);
-});
+// JSONファイル読み込み＆セレクトボックスに反映
+async function loadQuizzes() {
+  try {
+    const res = await fetch("problems.json");
+    if (!res.ok) throw new Error("問題データの読み込みに失敗しました");
+    quizzes = await res.json();
 
-document.getElementById("answerBtn").addEventListener("click", () => {
-  if (confirm("本当に答えを表示しますか？")) {
-    alert(`答え:\n${answerText}`);
+    quizzes.forEach((quiz, i) => {
+      const option = document.createElement("option");
+      option.value = i;
+      option.textContent = quiz.title;
+      quizSelect.appendChild(option);
+    });
+  } catch (err) {
+    alert(err.message);
   }
-});
+}
 
 function appendMessage(text, className) {
   const p = document.createElement("p");
@@ -24,6 +34,22 @@ function appendMessage(text, className) {
   chatLog.appendChild(p);
   chatLog.scrollTop = chatLog.scrollHeight;
 }
+
+hintBtn.addEventListener("click", () => {
+  const idx = quizSelect.selectedIndex;
+  if (quizzes.length === 0) {
+    alert("問題が読み込まれていません");
+    return;
+  }
+  alert(`ヒント:\n${quizzes[idx].hint}`);
+});
+
+answerBtn.addEventListener("click", () => {
+  if (confirm("本当に答えを表示しますか？")) {
+    const idx = quizSelect.selectedIndex;
+    alert(`答え:\n${quizzes[idx].answer}`);
+  }
+});
 
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -49,3 +75,6 @@ chatForm.addEventListener("submit", async (e) => {
 
   chatInput.value = "";
 });
+
+// ページロード時に問題を読み込み
+loadQuizzes();
